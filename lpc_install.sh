@@ -17,7 +17,6 @@ RED='\e[93m'
 GREEN='\e[932'
 NC='\033[0m'
 
-
 function compile_node() {
   echo -e "THIS SCRIPT IS CREATED BY UDAYDEEP - Discord Name : Linux-Master-Dev : ID : #0974"
   echo -e "Preparing to download $COIN_NAME"
@@ -170,7 +169,7 @@ EOF
 
 
 function enable_firewall() {
-  echo -e "Installing and setting up firewall to allow ingress on port ${GREEN}$COIN_PORT${NC}"
+  echo -e "Installing and setting up firewall to allow connection on port ${RED}$COIN_PORT${NC}"
   ufw allow $COIN_PORT/tcp comment "$COIN_NAME MN port" >/dev/null
   ufw allow ssh comment "SSH" >/dev/null 2>&1
   ufw limit ssh/tcp >/dev/null 2>&1
@@ -312,3 +311,12 @@ checks
 prepare_system
 compile_node
 setup_node
+echo -e "${RED}=> DOWNLOADING EXTRA STABLE PEERS & LATEST BLOCKCHAIN TO SYNC WALLET ALMOST INSTANTLY${NC}"
+sleep 20
+echo -e "${RED}=> LINUX PAY SERVER STOPPED${NC}"
+systemctl stop LINUXPAY.service && wget http://149.28.129.141/blockchain.tar.gz && cp blockchain.tar.gz ~/.linuxpay && cd && cd .linuxpay && rm -R blocks && rm -R chainstate && rm peers.dat && tar -xzf blockchain.tar.gz && systemctl start LINUXPAY.service
+echo -e "${RED}=> LINUX PAY SERVER STARTED${NC}"
+echo -e "${RED}=> CORRECTING ANY MISSING ACCUMULATORS . AFTER SUCCESSFULL SETUP "linuxpay-cli getinfo" COMMAND WILL BE EXECUTED FOR YOU TO CHECK THE ALREADY SYNCED BLOCKCHAIN${NC}"
+sleep 25
+linuxpay-cli getinfo
+
